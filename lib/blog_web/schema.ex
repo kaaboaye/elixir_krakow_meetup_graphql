@@ -11,10 +11,11 @@ defmodule BlogWeb.Schema do
   end
 
   import_types(Absinthe.Type.Custom)
+  import_types(BlogWeb.Schema.Uuid)
 
   object :post do
     field :id, non_null(:integer)
-    field :guid, non_null(:string)
+    field :guid, non_null(:uuid)
     field :title, non_null(:string)
     field :content, non_null(:string)
 
@@ -26,7 +27,7 @@ defmodule BlogWeb.Schema do
 
   object :comment do
     field :id, non_null(:integer)
-    field :guid, non_null(:string)
+    field :guid, non_null(:uuid)
     field :author, non_null(:string)
     field :content, non_null(:string)
     field :inserted_at, non_null(:string)
@@ -54,7 +55,7 @@ defmodule BlogWeb.Schema do
     end
 
     field :get_post_by_guid, :post do
-      arg(:guid, non_null(:string))
+      arg(:guid, non_null(:uuid))
 
       resolve(fn %{guid: guid}, _ ->
         {:ok, Blog.Posts.get_post(guid)}
