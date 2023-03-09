@@ -6,6 +6,7 @@ defmodule Blog.Posts.Post do
     field :guid, Ecto.UUID, autogenerate: true
     field :title, :string
     field :content, :string
+    has_many :comments, Blog.Comments.Comment
 
     timestamps()
   end
