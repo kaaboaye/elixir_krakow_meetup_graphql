@@ -27,4 +27,27 @@ defmodule BlogWeb.Helpers do
       timestamps()
     end
   end
+
+  defmacro get_field(name, type, module, function) do
+    id_name = :"#{name}_by_id"
+    uuid_name = :"#{name}_by_uuid"
+
+    quote do
+      field unquote(id_name), unquote(type) do
+        arg(:id, non_null(:integer))
+
+        resolve(fn %{id: id}, _ ->
+          {:ok, unquote(module).unquote(function)(id)}
+        end)
+      end
+
+      field unquote(uuid_name), unquote(type) do
+        arg(:uuid, non_null(:uuid))
+
+        resolve(fn %{uuid: uuid}, _ ->
+          {:ok, unquote(module).unquote(function)(uuid)}
+        end)
+      end
+    end
+  end
 end

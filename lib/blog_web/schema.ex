@@ -22,6 +22,7 @@ defmodule BlogWeb.Schema do
     end
 
     import_fields(:post_queries)
+    import_fields(:comment_queries)
   end
 
   mutation do

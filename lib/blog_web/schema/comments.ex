@@ -8,6 +8,10 @@ defmodule BlogWeb.Schema.Comments do
     field :content, non_null(:string)
   end
 
+  object :comment_queries do
+    get_field(:get_comment, :comment, Blog.Comments, :get_comment)
+  end
+
   input_object :add_comment_attrs do
     field :post_id, non_null(:integer)
     field :author, non_null(:string)

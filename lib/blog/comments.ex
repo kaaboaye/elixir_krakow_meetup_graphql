@@ -37,6 +37,9 @@ defmodule Blog.Comments do
   """
   def get_comment!(id), do: Repo.get!(Comment, id)
 
+  def get_comment(id) when is_integer(id), do: Repo.get(Comment, id)
+  def get_comment(guid) when is_binary(guid), do: Repo.get_by(Comment, guid: guid)
+
   @doc """
   Creates a comment.
 

@@ -18,20 +18,6 @@ defmodule BlogWeb.Schema.Posts do
       end)
     end
 
-    field :get_post_by_id, :post do
-      arg(:id, non_null(:integer))
-
-      resolve(fn %{id: id}, _ ->
-        {:ok, Blog.Posts.get_post(id)}
-      end)
-    end
-
-    field :get_post_by_guid, :post do
-      arg(:guid, non_null(:uuid))
-
-      resolve(fn %{guid: guid}, _ ->
-        {:ok, Blog.Posts.get_post(guid)}
-      end)
-    end
+    get_field(:get_post, :post, Blog.Posts, :get_post)
   end
 end
