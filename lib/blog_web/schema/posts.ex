@@ -28,8 +28,7 @@ defmodule BlogWeb.Schema.Posts do
   end
 
   object :post_mutations do
-    field :add_post, :post do
-      middleware(BlogWeb.Auth)
+    auth_field :add_post, :post do
       arg(:attrs, non_null(:add_post_attrs))
 
       resolve(fn %{attrs: attrs}, %{context: %{user_id: user_id}} ->

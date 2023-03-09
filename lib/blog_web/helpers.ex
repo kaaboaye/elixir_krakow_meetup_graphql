@@ -69,4 +69,14 @@ defmodule BlogWeb.Helpers do
       end
     end
   end
+
+  defmacro auth_field(name, type, opts \\ [], do: do_block)
+           when is_atom(name) and is_list(opts) do
+    quote do
+      field unquote(name), unquote(type) do
+        middleware(BlogWeb.Auth, unquote(opts))
+        unquote(do_block)
+      end
+    end
+  end
 end
