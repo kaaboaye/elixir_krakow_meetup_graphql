@@ -10,6 +10,13 @@ defmodule BlogWeb.Helpers do
   defmacro ids do
     quote do
       field :id, non_null(:integer)
+
+      field :id_str, non_null(:string) do
+        resolve(fn %{id: id}, _, _ ->
+          {:ok, Integer.to_string(id)}
+        end)
+      end
+
       field :guid, non_null(:uuid)
     end
   end
@@ -30,6 +37,7 @@ defmodule BlogWeb.Helpers do
 
   defmacro get_field(name, type, module, function) do
     id_name = :"#{name}_by_id"
+    id_str_name = :"#{name}_by_id_str"
     uuid_name = :"#{name}_by_uuid"
 
     quote do
@@ -38,6 +46,17 @@ defmodule BlogWeb.Helpers do
 
         resolve(fn %{id: id}, _ ->
           {:ok, unquote(module).unquote(function)(id)}
+        end)
+      end
+
+      field unquote(id_str_name), unquote(type) do
+        arg(:id_str, non_null(:string))
+
+        resolve(fn %{id_str: id_str}, _ ->
+          case Integer.parse(id_str) do
+            {id, ""} -> {:ok, unquote(module).unquote(function)(id)}
+            _ -> {:ok, nil}
+          end
         end)
       end
 
