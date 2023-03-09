@@ -1,5 +1,14 @@
 defmodule BlogWeb.Schema do
   use Absinthe.Schema
+  import Absinthe.Resolution.Helpers
+
+  def context(ctx) do
+    Map.put(ctx, :loader, BlogWeb.Dataloader.new())
+  end
+
+  def plugins do
+    [Absinthe.Middleware.Dataloader] ++ Absinthe.Plugin.defaults()
+  end
 
   import_types(Absinthe.Type.Custom)
 
@@ -9,12 +18,7 @@ defmodule BlogWeb.Schema do
     field :title, non_null(:string)
     field :content, non_null(:string)
 
-    field :comments, non_null(list_of(non_null(:comment))) do
-      resolve(fn post, _, _ ->
-        post = Blog.Repo.preload(post, :comments)
-        {:ok, post.comments}
-      end)
-    end
+    field :comments, non_null(list_of(non_null(:comment))), resolve: dataloader(Blog.Repo)
 
     field :inserted_at, non_null(:string)
     field :updated_at, non_null(:string)
