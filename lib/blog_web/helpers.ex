@@ -16,8 +16,8 @@ defmodule BlogWeb.Helpers do
 
   defmacro timestamps do
     quote do
-      field :inserted_at, non_null(:string)
-      field :updated_at, non_null(:string)
+      field :inserted_at, non_null(:naive_datetime)
+      field :updated_at, non_null(:naive_datetime)
     end
   end
 
