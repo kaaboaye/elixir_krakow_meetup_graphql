@@ -1,10 +1,9 @@
 defmodule BlogWeb.Schema.Posts do
-  use Absinthe.Schema.Notation
-  import Absinthe.Resolution.Helpers
+  use BlogWeb.Helpers
 
   object :post do
-    field :id, non_null(:integer)
-    field :guid, non_null(:uuid)
+    ids()
+
     field :title, non_null(:string)
     field :content, non_null(:string)
 

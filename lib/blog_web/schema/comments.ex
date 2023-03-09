@@ -1,9 +1,9 @@
 defmodule BlogWeb.Schema.Comments do
-  use Absinthe.Schema.Notation
+  use BlogWeb.Helpers
 
   object :comment do
-    field :id, non_null(:integer)
-    field :guid, non_null(:uuid)
+    ids()
+
     field :author, non_null(:string)
     field :content, non_null(:string)
     field :inserted_at, non_null(:string)
