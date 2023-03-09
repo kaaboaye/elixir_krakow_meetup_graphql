@@ -26,6 +26,6 @@ erl_crash.dump
 blog-*.tar
 
 # Database files
-*.db
+# *.db
 *.db-*
 
