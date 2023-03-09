@@ -8,6 +8,23 @@ defmodule BlogWeb.Schema do
     field :guid, non_null(:string)
     field :title, non_null(:string)
     field :content, non_null(:string)
+
+    field :comments, non_null(list_of(non_null(:comment))) do
+      resolve(fn post, _, _ ->
+        post = Blog.Repo.preload(post, :comments)
+        {:ok, post.comments}
+      end)
+    end
+
+    field :inserted_at, non_null(:string)
+    field :updated_at, non_null(:string)
+  end
+
+  object :comment do
+    field :id, non_null(:integer)
+    field :guid, non_null(:string)
+    field :author, non_null(:string)
+    field :content, non_null(:string)
     field :inserted_at, non_null(:string)
     field :updated_at, non_null(:string)
   end
