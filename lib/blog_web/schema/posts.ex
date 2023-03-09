@@ -3,14 +3,12 @@ defmodule BlogWeb.Schema.Posts do
 
   object :post do
     ids()
+    timestamps()
 
     field :title, non_null(:string)
     field :content, non_null(:string)
 
     field :comments, non_null(list_of(non_null(:comment))), resolve: dataloader(Blog.Repo)
-
-    field :inserted_at, non_null(:string)
-    field :updated_at, non_null(:string)
   end
 
   object :post_queries do

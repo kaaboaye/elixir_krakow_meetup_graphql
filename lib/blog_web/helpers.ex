@@ -13,4 +13,18 @@ defmodule BlogWeb.Helpers do
       field :guid, non_null(:uuid)
     end
   end
+
+  defmacro timestamps do
+    quote do
+      field :inserted_at, non_null(:string)
+      field :updated_at, non_null(:string)
+    end
+  end
+
+  defmacro common_fields do
+    quote do
+      ids()
+      timestamps()
+    end
+  end
 end

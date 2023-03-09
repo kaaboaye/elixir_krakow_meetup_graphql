@@ -2,12 +2,10 @@ defmodule BlogWeb.Schema.Comments do
   use BlogWeb.Helpers
 
   object :comment do
-    ids()
+    common_fields()
 
     field :author, non_null(:string)
     field :content, non_null(:string)
-    field :inserted_at, non_null(:string)
-    field :updated_at, non_null(:string)
   end
 
   input_object :add_comment_attrs do
