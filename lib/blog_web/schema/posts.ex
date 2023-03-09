@@ -7,6 +7,7 @@ defmodule BlogWeb.Schema.Posts do
 
     field :title, non_null(:string)
     field :content, non_null(:string)
+    field :user_id, non_null(:integer)
 
     field :comments, non_null(list_of(non_null(:comment))), resolve: dataloader(Blog.Repo)
   end
@@ -19,5 +20,23 @@ defmodule BlogWeb.Schema.Posts do
     end
 
     get_field(:get_post, :post, Blog.Posts, :get_post)
+  end
+
+  input_object :add_post_attrs do
+    field :title, non_null(:string)
+    field :content, non_null(:string)
+  end
+
+  object :post_mutations do
+    field :add_post, :post do
+      middleware(BlogWeb.Auth)
+      arg(:attrs, non_null(:add_post_attrs))
+
+      resolve(fn %{attrs: attrs}, %{context: %{user_id: user_id}} ->
+        attrs
+        |> Map.put(:user_id, user_id)
+        |> Blog.Posts.create_post()
+      end)
+    end
   end
 end

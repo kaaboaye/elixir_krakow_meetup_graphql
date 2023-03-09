@@ -3,10 +3,15 @@ defmodule BlogWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug BlogWeb.Plugs.Session
+  end
+
+  pipeline :graphql do
+    plug BlogWeb.Plugs.GraphqlContext
   end
 
   scope "/api" do
-    pipe_through :api
+    pipe_through [:api, :graphql]
 
     forward "/graphiql", Absinthe.Plug.GraphiQL, schema: BlogWeb.Schema
 

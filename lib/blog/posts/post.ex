@@ -6,6 +6,7 @@ defmodule Blog.Posts.Post do
     field :guid, Ecto.UUID, autogenerate: true
     field :title, :string
     field :content, :string
+    field :user_id, :integer
     has_many :comments, Blog.Comments.Comment
 
     timestamps()
@@ -14,7 +15,7 @@ defmodule Blog.Posts.Post do
   @doc false
   def changeset(post, attrs) do
     post
-    |> cast(attrs, [:title, :content])
+    |> cast(attrs, [:user_id, :title, :content])
     |> validate_required([:title, :content])
   end
 end
