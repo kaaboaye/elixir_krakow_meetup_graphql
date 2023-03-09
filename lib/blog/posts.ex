@@ -37,6 +37,9 @@ defmodule Blog.Posts do
   """
   def get_post!(id), do: Repo.get!(Post, id)
 
+  def get_post(id) when is_integer(id), do: Repo.get(Post, id)
+  def get_post(guid) when is_binary(guid), do: Repo.get_by(Post, guid: guid)
+
   @doc """
   Creates a post.
 
